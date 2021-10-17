@@ -1,4 +1,4 @@
-import {emptyItemQuery} from './item.js';
+import { emptyItemQuery } from './item.js';
 
 export default class Controller {
 
@@ -41,7 +41,7 @@ export default class Controller {
 
 	editItemSave(id, title) {
 		if (title.length) {
-			this.store.update({id, title}, () => {
+			this.store.update({ id, title }, () => {
 				this.view.editItemDone(id, title);
 			});
 		} else {
@@ -50,32 +50,32 @@ export default class Controller {
 	}
 
 	editItemCancel(id) {
-		this.store.find({id}, data => {
+		this.store.find({ id }, data => {
 			const title = data[0].title;
 			this.view.editItemDone(id, title);
 		});
 	}
 
 	removeItem(id) {
-		this.store.remove({id}, () => {
+		this.store.remove({ id }, () => {
 			this._filter();
 			this.view.removeItem(id);
 		});
 	}
 
 	removeCompletedItems() {
-		this.store.remove({completed: true}, this._filter.bind(this));
+		this.store.remove({ completed: true }, this._filter.bind(this));
 	}
 
 	toggleCompleted(id, completed) {
-		this.store.update({id, completed}, () => {
+		this.store.update({ id, completed }, () => {
 			this.view.setItemComplete(id, completed);
 		});
 	}
 
 	toggleAll(completed) {
-		this.store.find({completed: !completed}, data => {
-			for (let {id} of data) {
+		this.store.find({ completed: !completed }, data => {
+			for (let { id } of data) {
 				this.toggleCompleted(id, completed);
 			}
 		});
@@ -89,15 +89,15 @@ export default class Controller {
 		if (force || this._lastActiveRoute !== '' || this._lastActiveRoute !== route) {
 			this.store.find({
 				'': emptyItemQuery,
-				'active': {completed: false},
-				'completed': {completed: true}
+				'active': { completed: false },
+				'completed': { completed: true }
 			}[route], this.view.showItems.bind(this.view));
 		}
 
 		this.store.count((total, active, completed) => {
-			this.view.setItemsLeft(0);
+			this.view.setItemsLeft(active);
 			this.view.setClearCompletedButtonVisibility(completed);
-
+			this.view.clearNewTodo();
 			this.view.setCompleteAllCheckbox(completed === total);
 			this.view.setMainVisibility(total);
 		});

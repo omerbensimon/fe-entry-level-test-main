@@ -1,5 +1,5 @@
 export function query(selector, scope) {
-	if(scope === null) throw 'query scope cannot be null';
+	if (scope === null) throw 'query scope cannot be null';
 	return (scope || document).querySelector(selector);
 }
 
@@ -9,6 +9,7 @@ export function listen(target, type, callback, capture) {
 
 export function delegateEvent(target, selector, type, handler, capture) {
 	const dispatchEvent = event => {
+		console.log("event", event)
 		const targetElement = event.target;
 		const potentialElements = target.querySelectorAll(selector);
 		let i = potentialElements.length;

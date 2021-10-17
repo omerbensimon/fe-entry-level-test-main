@@ -3,7 +3,7 @@ import { emptyItemQuery } from './item.js';
 export default class Store {
 
 	constructor(name, callback) {
-		const localStorage = window.sessionStorage;
+		const localStorage = window.localStorage;
 
 		let liveTodos;
 
@@ -56,7 +56,11 @@ export default class Store {
 
 	insert(item, callback) {
 		const todos = this.getLocalStorage();
-		todos.push(item);
+		if (todos.findIndex(val => val.title === item.title) === -1) {
+			todos.push(item);
+		} else {
+			alert("item already exists")
+		}
 
 		this.setLocalStorage(todos);
 
@@ -66,6 +70,7 @@ export default class Store {
 	}
 
 	remove(query, callback) {
+		console.log("query", query)
 		const todos = this.getLocalStorage().filter(todo => {
 			for (let k in query) {
 				if (query[k] === todo[k]) {
