@@ -7,9 +7,10 @@ export function listen(target, type, callback, capture) {
 	target.addEventListener(type, callback, !!capture);
 }
 
+// delegateEvent function shows all the detals on the titles that are shown.
+// it updates the existing tatatus of relavante elemnts according to the event that occures (it listens to events), 
 export function delegateEvent(target, selector, type, handler, capture) {
 	const dispatchEvent = event => {
-		console.log("event", event)
 		const targetElement = event.target;
 		const potentialElements = target.querySelectorAll(selector);
 		let i = potentialElements.length;

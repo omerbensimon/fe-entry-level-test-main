@@ -29,14 +29,18 @@ export default class Controller {
 	}
 
 	addItem(title) {
-		this.store.insert({
-			id: Date.now(),
-			title,
-			completed: false
-		}, () => {
-			this.view.clearNewTodo();
-			this._filter(true);
-		});
+		console.log("title", title)
+		if (title.includes('<', 0) === true && title.includes('>', 1) === true) alert("unautorized string - < >")
+		else {
+			this.store.insert({
+				id: Date.now(),
+				title,
+				completed: false
+			}, () => {
+				this.view.clearNewTodo();
+				this._filter(true);
+			});
+		}
 	}
 
 	editItemSave(id, title) {
